@@ -1,0 +1,20 @@
+let
+  MonthsCount = List.Generate(
+    () => [x = #date(2022, 1, 1), i = 0], 
+    each [i] < 12, 
+    each [i = [i] + 1, x = Date.AddMonths([x], 1)], 
+    each [x]
+  ), 
+  ToTable = Table.FromList(MonthsCount, Splitter.SplitByNothing(), null, null, ExtraValues.Error), 
+  Renamed = Table.RenameColumns(ToTable, {{"Column1", "Дата"}}), 
+  InsertMonthName = Table.AddColumn(Renamed, "Месяц", each Date.ToText([Дата], "MMMM"), type text), 
+  InsertShortMonthName = Table.AddColumn(
+    InsertMonthName, 
+    "Мес.", 
+    each Date.ToText([Дата], "MMM"), 
+    type text
+  ), 
+  Extracted_Month = Table.TransformColumns(InsertShortMonthName, {{"Дата", Date.Month, Int64.Type}}), 
+  Month_table = Table.RenameColumns(Extracted_Month, {{"Дата", "Номер месяца"}})
+in
+  Month_table
