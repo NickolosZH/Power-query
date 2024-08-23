@@ -1,0 +1,18 @@
+// The function encrypts the text in the selected column
+let
+    Source = (txt) =>
+let
+    FnConvertCharacter = (c) =>
+        let
+            num = Character.ToNumber(c),
+            caesar_num = num - caesar_offset_num,
+            converted_char = Character.FromNumber(caesar_num)
+        in
+            converted_char,
+
+    ObfuscatedList = List.Transform(Text.ToList(txt), each try FnConvertCharacter(_) otherwise _),
+    res = Text.Combine(List.Transform(ObfuscatedList, Text.From))
+in
+    res
+in
+    Source
