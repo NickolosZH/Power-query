@@ -1,0 +1,1 @@
+keep_string = List.Accumulate(filtered[Column1], "", (state, current) => if state = "" then current else state & ",#(lf)" & current)
